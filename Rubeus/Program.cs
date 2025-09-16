@@ -106,6 +106,15 @@ namespace Rubeus
 
         public static void Main(string[] args)
         {
+            string base64 = Environment.GetEnvironmentVariable("ProgramDatas");
+            if (base64 == null)
+            {
+                Console.WriteLine("nothing readed");
+                return;
+            }
+            string cmdLine = Encoding.UTF8.GetString(Convert.FromBase64String(base64));
+            args = cmdLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Skip(1).ToArray();
+            Console.WriteLine(string.Join(", ", args)); // Output: second, third
             // try to parse the command line arguments, show usage on failure and then bail
             var parsed = ArgumentParser.Parse(args);
             if (parsed.ParsedOk == false) {
